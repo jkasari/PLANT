@@ -16,6 +16,8 @@ Petal petalsTwo[FLOWER_TWO_LEDS];
 void setup() {
   FastLED.addLeds<LED_TYPE, FLOWER_ONE_PIN, COLOR_ORDER>(flowerOne, FLOWER_ONE_LEDS);
   FastLED.addLeds<LED_TYPE, FLOWER_TWO_PIN, COLOR_ORDER>(flowerTwo, FLOWER_TWO_LEDS);
+  initFlowerColor(petalsOne, FLOWER_ONE_LEDS, 200, 200, 50);
+  initFlowerColor(petalsTwo, FLOWER_TWO_LEDS, 1, 1, 250);
   FastLED.clear();
 }
 
@@ -29,5 +31,11 @@ void loop() {
 void animate(CRGB* flower, Petal* petals, uint8_t ledCount) {
   for (int i = 0; i < ledCount; ++i) {
     flower[i] = petals[i].getColor();
+  }
+}
+
+void initFlowerColor(Petal *petals, uint8_t ledCount, uint8_t red, uint8_t green, uint8_t blue) {
+  for (int i = 0; i < ledCount; ++i) {
+    petals[i].setColor(red, green, blue);
   }
 }
