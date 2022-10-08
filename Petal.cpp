@@ -1,39 +1,50 @@
 #include "Petal.h"
 #include <FastLED.h>
 
+// All the ranges used for the random fading in and out of the leds. 
+#define RANDOM_LOW_RANGE random(10, 20)
+#define RANDOM_HIGH_RANGE random(rangeLow+25, 255)
+#define RANDOM_SPEED random(8, 15)
+
+
 Petal::Petal() {
+    // Randomize the variables to start.
     randomizeVariables();
 }
 
 void Petal::setColor(uint8_t red, uint8_t green, uint8_t blue) {
-    this->red /= red;
-    this->green /= green;
-    this->blue /= blue;
+    // These RGB values end up being the denominator on the RGB values in the returned CRGB.
+    this->red = 255/red;
+    this->green = 255/green;
+    this->blue = 255/blue;
 }
 
 CRGB Petal::getColor(void) {
-    uint8_t rgbArr[3];
-    for (int i = 0; i < 3; ++i) {
-        countArr[i] += 1;
-        rgbArr[i] = equate(countArr[i]);
-    }
-    return CRGB(rgbArr[0]/red, rgbArr[1]/green, rgbArr[2]/blue);
+    brightness = incrementBrightness(brightness);
+    // Divide in the RGB data members. So 255/255 is 1, so full brightness for that value.
+    // And 1/255 is close enough to zero to cancel out that value.
+    return CRGB(brightness/red, brightness/green, brightness/blue);
 }
 
-uint8_t Petal::equate(uint32_t count) {
-
-    EVERY_N_MILLISECONDS(recalcTime) {
-        randomizeVariables();
+uint8_t Petal::incrementBrightness(uint8_t brightness) {
+    // Increment the brightness when the value matches the speed.
+    if (millis()-lastInc >= speed) {
+        lastInc = millis();
+        brightness += inc;
+        if (brightness == rangeHigh) {
+            inc = -1; // Start decreasing the value once we reach the high limit
+        }
+        if (brightness == rangeLow) {
+            inc = 1; // Start increasing the value once we reach the low limit.
+            randomizeVariables();
+        }
     }
-    
-    //return ( (rangeHigh-rangeLow) * (triwave8( (count+distance)/freq ) / 256 ) ) + rangeLow;
-    return rangeHigh*(triwave8(count+distance)/freq)/256+rangeLow;
+    return brightness;
 }
 
 void Petal::randomizeVariables(void) {
-    freq = random(8, 12);
-    rangeLow = random(20, 40);
-    rangeHigh = random(rangeLow+25, 255)-rangeLow;
-    distance = random8(0, 50);
-    recalcTime = random8()*20;
+    rangeLow = RANDOM_LOW_RANGE;
+    rangeHigh = RANDOM_HIGH_RANGE;
+    speed = RANDOM_SPEED;
+    brightness = rangeLow+1;
 }
