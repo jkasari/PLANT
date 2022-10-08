@@ -14,35 +14,28 @@ void Petal::setColor(uint8_t red, uint8_t green, uint8_t blue) {
 CRGB Petal::getColor(void) {
     uint8_t rgbArr[3];
     for (int i = 0; i < 3; ++i) {
-        countArr[i] += 1;
-        rgbArr[i] = equate(countArr[i]);
+        rgbArr[i] = equate();
     }
     return CRGB(rgbArr[0]/red, rgbArr[1]/green, rgbArr[2]/blue);
 }
 
-uint8_t Petal::equate(uint32_t count) {
-
-    EVERY_N_MILLISECONDS(2) {
-        if (count == rangeHigh) {
+uint8_t Petal::equate() {
+    EVERY_N_MILLISECONDS(speed) {
+        brightness += inc;
+        if (brightness == rangeHigh) {
             inc = -1;
         }
-        if (count == rangeLow) {
+        if (brightness == rangeLow) {
             inc = 1;
             randomizeVariables();
         }
-        brightness += inc;
     }
     return brightness;
-    
-    //return ( (rangeHigh-rangeLow) * (triwave8( (count+distance)/freq ) / 256 ) ) + rangeLow;
-    //return rangeHigh*(triwave8(count+distance)/freq)/256+rangeLow;
 }
 
 void Petal::randomizeVariables(void) {
-    freq = random(8, 12);
     rangeLow = random(20, 30);
     rangeHigh = random(rangeLow+25, 255);
-    distance = random8(0, 50);
-    speed = random8(50);
+    speed = random8(5);
     brightness = rangeLow+1;
 }

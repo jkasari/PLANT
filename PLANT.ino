@@ -16,8 +16,8 @@ Petal petalsTwo[FLOWER_TWO_LEDS];
 void setup() {
   FastLED.addLeds<LED_TYPE, FLOWER_ONE_PIN, COLOR_ORDER>(flowerOne, FLOWER_ONE_LEDS);
   FastLED.addLeds<LED_TYPE, FLOWER_TWO_PIN, COLOR_ORDER>(flowerTwo, FLOWER_TWO_LEDS);
-  initFlowerColor(petalsOne, FLOWER_ONE_LEDS, 200, 200, 50);
-  initFlowerColor(petalsTwo, FLOWER_TWO_LEDS, 1, 1, 250);
+  initFlowerColor(petalsOne, FLOWER_ONE_LEDS, 150, 70, 1);
+  initFlowerColor(petalsTwo, FLOWER_TWO_LEDS, 20, 1, 150);
   FastLED.clear();
 }
 

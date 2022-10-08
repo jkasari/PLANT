@@ -15,19 +15,17 @@ class Petal {
 
     private:
     
-        uint8_t brightness = 150;
+        uint8_t brightness = 1;
         int8_t inc = 1;
-        uint8_t freq = 1;
         uint8_t rangeHigh = 0;
         uint8_t rangeLow = 0;
-        uint8_t distance = 0;
         uint32_t speed = 0;
-        uint32_t countArr[3];
         uint8_t red = 255;
         uint8_t green = 255;
         uint8_t blue = 255;
 
-        uint8_t equate(uint32_t);
+        // Gives a uint8_t that is increment once in either direction.
+        uint8_t equate(void);
 
         void randomizeVariables(void);
 };
