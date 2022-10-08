@@ -22,18 +22,27 @@ CRGB Petal::getColor(void) {
 
 uint8_t Petal::equate(uint32_t count) {
 
-    EVERY_N_MILLISECONDS(recalcTime) {
-        randomizeVariables();
+    EVERY_N_MILLISECONDS(2) {
+        if (count == rangeHigh) {
+            inc = -1;
+        }
+        if (count == rangeLow) {
+            inc = 1;
+            randomizeVariables();
+        }
+        brightness += inc;
     }
+    return brightness;
     
     //return ( (rangeHigh-rangeLow) * (triwave8( (count+distance)/freq ) / 256 ) ) + rangeLow;
-    return rangeHigh*(triwave8(count+distance)/freq)/256+rangeLow;
+    //return rangeHigh*(triwave8(count+distance)/freq)/256+rangeLow;
 }
 
 void Petal::randomizeVariables(void) {
     freq = random(8, 12);
-    rangeLow = random(20, 40);
-    rangeHigh = random(rangeLow+25, 255)-rangeLow;
+    rangeLow = random(20, 30);
+    rangeHigh = random(rangeLow+25, 255);
     distance = random8(0, 50);
-    recalcTime = random8()*20;
+    speed = random8(50);
+    brightness = rangeLow+1;
 }
