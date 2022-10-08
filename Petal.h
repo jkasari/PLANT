@@ -6,13 +6,15 @@ class Petal {
 
     public:
 
+        Petal();
+
         // Returns a CRGB color incremented by 1 each time called.  
         CRGB getColor(void);
 
     private:
     
         uint8_t brightness = 0;
-        uint8_t freq = 1;
+        uint8_t freq = 9;
         uint8_t rangeHigh = 256;
         uint8_t rangeLow = 0;
         uint32_t countArr[3];

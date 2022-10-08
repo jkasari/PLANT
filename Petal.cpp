@@ -1,6 +1,9 @@
 #include "Petal.h"
 #include <FastLED.h>
 
+Petal::Petal() {
+    freq = random8(1, 7);
+}
 
 CRGB Petal::getColor(void) {
     uint8_t rgbArr[3];
@@ -12,5 +15,5 @@ CRGB Petal::getColor(void) {
 }
 
 uint8_t Petal::equate(uint32_t count) {
-    return triwave8(count);
+    return triwave8(count/freq);
 }
