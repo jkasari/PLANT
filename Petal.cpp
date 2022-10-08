@@ -12,15 +12,13 @@ void Petal::setColor(uint8_t red, uint8_t green, uint8_t blue) {
 }
 
 CRGB Petal::getColor(void) {
-    uint8_t rgbArr[3];
-    for (int i = 0; i < 3; ++i) {
-        rgbArr[i] = equate();
-    }
-    return CRGB(rgbArr[0]/red, rgbArr[1]/green, rgbArr[2]/blue);
+    brightness = incrementBrightness(brightness);
+    return CRGB(brightness/red, brightness/green, brightness/blue);
 }
 
-uint8_t Petal::equate() {
-    EVERY_N_MILLISECONDS(speed) {
+uint8_t Petal::incrementBrightness(uint8_t brightness) {
+    if (millis()-lastInc >= speed) {
+        lastInc = millis();
         brightness += inc;
         if (brightness == rangeHigh) {
             inc = -1;

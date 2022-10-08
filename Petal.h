@@ -16,6 +16,7 @@ class Petal {
     private:
     
         uint8_t brightness = 1;
+        uint32_t lastInc = 0;
         int8_t inc = 1;
         uint8_t rangeHigh = 0;
         uint8_t rangeLow = 0;
@@ -25,7 +26,7 @@ class Petal {
         uint8_t blue = 255;
 
         // Gives a uint8_t that is increment once in either direction.
-        uint8_t equate(void);
+        uint8_t incrementBrightness(uint8_t);
 
         void randomizeVariables(void);
 };
