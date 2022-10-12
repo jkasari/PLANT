@@ -2,8 +2,8 @@
 #include <FastLED.h>
 
 // All the ranges used for the random fading in and out of the leds. 
-#define RANDOM_LOW_RANGE random(50, 70)
-#define RANDOM_HIGH_RANGE random(rangeLow+25, 255)
+#define RANDOM_LOW_RANGE random(60, 90)
+#define RANDOM_HIGH_RANGE random(rangeLow+60, 200)
 #define RANDOM_SPEED random(8, 15)
 #define SATURATION 200
 
