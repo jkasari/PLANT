@@ -2,9 +2,10 @@
 #include <FastLED.h>
 
 // All the ranges used for the random fading in and out of the leds. 
-#define RANDOM_LOW_RANGE random(10, 20)
+#define RANDOM_LOW_RANGE random(50, 70)
 #define RANDOM_HIGH_RANGE random(rangeLow+25, 255)
 #define RANDOM_SPEED random(8, 15)
+#define SATURATION 200
 
 
 Petal::Petal() {
@@ -12,18 +13,20 @@ Petal::Petal() {
     randomizeVariables();
 }
 
-void Petal::setColor(uint8_t red, uint8_t green, uint8_t blue) {
+void Petal::setColorDirection(bool direction) {
     // These RGB values end up being the denominator on the RGB values in the returned CRGB.
-    this->red = 255/red;
-    this->green = 255/green;
-    this->blue = 255/blue;
+    this->direction = direction;
 }
 
-CRGB Petal::getColor(void) {
+// Calls the increment function and returns a color based on that petals color direction.
+// This makes is so the each plant changes different colors from each other.
+CHSV Petal::getColor(uint8_t potReading) {
     brightness = incrementBrightness(brightness);
-    // Divide in the RGB data members. So 255/255 is 1, so full brightness for that value.
-    // And 1/255 is close enough to zero to cancel out that value.
-    return CRGB(brightness/red, brightness/green, brightness/blue);
+    if (direction) {
+        return CHSV(potReading, SATURATION, brightness);
+    } else {
+        return CHSV(255-potReading, SATURATION, brightness);
+    }
 }
 
 uint8_t Petal::incrementBrightness(uint8_t brightness) {
